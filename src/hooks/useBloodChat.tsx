@@ -60,7 +60,7 @@ export const useBloodChat = (requestId: string | null) => {
     setLoading(true);
     try {
       const { data, error } = await supabase
-        .from('blood_chat')
+        .from('blood_chat' as any)
         .select(`
           *,
           sender:profiles!blood_chat_sender_id_fkey(first_name, last_name),
@@ -107,14 +107,14 @@ export const useBloodChat = (requestId: string | null) => {
 
     try {
       const { data, error } = await supabase
-        .from('blood_chat')
+        .from('blood_chat' as any)
         .insert([
           {
             request_id: requestId,
             sender_id: user.id,
             receiver_id: receiverId,
             message: message.trim(),
-          }
+          } as any
         ])
         .select()
         .single();
@@ -139,8 +139,8 @@ export const useBloodChat = (requestId: string | null) => {
 
     try {
       await supabase
-        .from('blood_chat')
-        .update({ is_read: true })
+        .from('blood_chat' as any)
+        .update({ is_read: true } as any)
         .in('id', messageIds)
         .eq('receiver_id', user.id);
 

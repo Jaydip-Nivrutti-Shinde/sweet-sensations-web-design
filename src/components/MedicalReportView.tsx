@@ -51,7 +51,7 @@ const MedicalReportView = ({ userId, userName }: MedicalReportViewProps) => {
     setLoading(true);
     try {
       const { data, error } = await supabase
-        .from('medical_reports')
+        .from('medical_reports' as any)
         .select('*')
         .eq('user_id', userId)
         .maybeSingle();
@@ -60,7 +60,7 @@ const MedicalReportView = ({ userId, userName }: MedicalReportViewProps) => {
         throw error;
       }
 
-      setMedicalReport(data || null);
+      setMedicalReport((data || null) as any);
 
       if (!data) {
         toast({

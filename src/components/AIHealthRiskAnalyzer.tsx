@@ -39,7 +39,7 @@ const AIHealthRiskAnalyzer = () => {
     try {
       // Fetch medical reports
       const { data: medicalReport, error } = await supabase
-        .from('medical_reports')
+        .from('medical_reports' as any)
         .select('*')
         .eq('user_id', user.id)
         .single();
@@ -57,14 +57,14 @@ const AIHealthRiskAnalyzer = () => {
       // Create comprehensive prompt
       const prompt = `Analyze this medical history and predict health risks:
 
-Age: ${medicalReport.age || 'Not specified'}
-Blood Group: ${medicalReport.blood_group || 'Not specified'}
-Height: ${medicalReport.height_cm || 'Not specified'} cm
-Weight: ${medicalReport.weight_kg || 'Not specified'} kg
-Medical History: ${medicalReport.medical_history || 'None'}
-Current Conditions: ${medicalReport.current_conditions || 'None'}
-Medications: ${medicalReport.medications || 'None'}
-Allergies: ${medicalReport.allergies || 'None'}
+Age: ${(medicalReport as any).age || 'Not specified'}
+Blood Group: ${(medicalReport as any).blood_group || 'Not specified'}
+Height: ${(medicalReport as any).height_cm || 'Not specified'} cm
+Weight: ${(medicalReport as any).weight_kg || 'Not specified'} kg
+Medical History: ${(medicalReport as any).medical_history || 'None'}
+Current Conditions: ${(medicalReport as any).current_conditions || 'None'}
+Medications: ${(medicalReport as any).medications || 'None'}
+Allergies: ${(medicalReport as any).allergies || 'None'}
 
 Provide comprehensive health risk analysis in JSON:
 {

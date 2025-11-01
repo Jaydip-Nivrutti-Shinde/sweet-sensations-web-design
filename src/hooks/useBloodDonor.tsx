@@ -69,7 +69,7 @@ export const useBloodDonor = () => {
 
     try {
       const { data, error } = await supabase
-        .from('blood_donors')
+        .from('blood_donors' as any)
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
@@ -79,7 +79,7 @@ export const useBloodDonor = () => {
         setIsDonor(false);
         setDonorProfile(null);
       } else if (data) {
-        setDonorProfile(data);
+        setDonorProfile(data as any);
         setIsDonor(true);
       } else {
         setIsDonor(false);
@@ -117,19 +117,19 @@ export const useBloodDonor = () => {
 
     try {
       const { data, error } = await supabase
-        .from('blood_donors')
+        .from('blood_donors' as any)
         .insert([
           {
             user_id: user.id,
             ...donorData,
-          }
+          } as any
         ])
         .select()
         .single();
 
       if (error) throw error;
 
-      setDonorProfile(data);
+      setDonorProfile(data as any);
       setIsDonor(true);
 
       toast({
@@ -161,15 +161,15 @@ export const useBloodDonor = () => {
 
     try {
       const { data, error } = await supabase
-        .from('blood_donors')
-        .update(updates)
+        .from('blood_donors' as any)
+        .update(updates as any)
         .eq('user_id', user.id)
         .select()
         .single();
 
       if (error) throw error;
 
-      setDonorProfile(data);
+      setDonorProfile(data as any);
 
       toast({
         title: 'Success',

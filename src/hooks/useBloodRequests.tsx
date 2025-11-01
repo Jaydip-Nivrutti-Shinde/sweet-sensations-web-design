@@ -54,7 +54,7 @@ export const useBloodRequests = (filters?: {
     setLoading(true);
     try {
       let query = supabase
-        .from('blood_requests')
+        .from('blood_requests' as any)
         .select(`
           *,
           requester:profiles!blood_requests_requester_id_fkey(first_name, last_name, phone)
@@ -129,13 +129,13 @@ export const useBloodRequests = (filters?: {
 
     try {
       const { data, error } = await supabase
-        .from('blood_requests')
+        .from('blood_requests' as any)
         .insert([
           {
             requester_id: user.id,
             requester_type: 'user',
             ...requestData,
-          }
+          } as any
         ])
         .select()
         .single();
@@ -163,8 +163,8 @@ export const useBloodRequests = (filters?: {
   const updateRequest = async (requestId: string, updates: Partial<BloodRequest>) => {
     try {
       const { data, error } = await supabase
-        .from('blood_requests')
-        .update(updates)
+        .from('blood_requests' as any)
+        .update(updates as any)
         .eq('id', requestId)
         .select()
         .single();

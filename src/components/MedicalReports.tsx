@@ -71,7 +71,7 @@ const MedicalReports = ({ isOpen, onClose }: MedicalReportsProps) => {
     setFetching(true);
     try {
       const { data, error } = await supabase
-        .from('medical_reports')
+        .from('medical_reports' as any)
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
@@ -81,23 +81,24 @@ const MedicalReports = ({ isOpen, onClose }: MedicalReportsProps) => {
       }
 
       if (data) {
+        const record = data as any;
         setFormData({
-          age: data.age,
-          blood_group: data.blood_group || '',
-          height_cm: data.height_cm,
-          weight_kg: data.weight_kg,
-          medical_history: data.medical_history || '',
-          current_conditions: data.current_conditions || '',
-          medications: data.medications || '',
-          allergies: data.allergies || '',
-          emergency_contact_name: data.emergency_contact_name || '',
-          emergency_contact_phone: data.emergency_contact_phone || '',
-          emergency_contact_relation: data.emergency_contact_relation || '',
-          insurance_provider: data.insurance_provider || '',
-          insurance_policy_number: data.insurance_policy_number || '',
-          primary_physician_name: data.primary_physician_name || '',
-          primary_physician_phone: data.primary_physician_phone || '',
-          background_notes: data.background_notes || '',
+          age: record.age,
+          blood_group: record.blood_group || '',
+          height_cm: record.height_cm,
+          weight_kg: record.weight_kg,
+          medical_history: record.medical_history || '',
+          current_conditions: record.current_conditions || '',
+          medications: record.medications || '',
+          allergies: record.allergies || '',
+          emergency_contact_name: record.emergency_contact_name || '',
+          emergency_contact_phone: record.emergency_contact_phone || '',
+          emergency_contact_relation: record.emergency_contact_relation || '',
+          insurance_provider: record.insurance_provider || '',
+          insurance_policy_number: record.insurance_policy_number || '',
+          primary_physician_name: record.primary_physician_name || '',
+          primary_physician_phone: record.primary_physician_phone || '',
+          background_notes: record.background_notes || '',
         });
       }
     } catch (error: any) {
@@ -139,8 +140,8 @@ const MedicalReports = ({ isOpen, onClose }: MedicalReportsProps) => {
       };
 
       const { error } = await supabase
-        .from('medical_reports')
-        .upsert(reportData, {
+        .from('medical_reports' as any)
+        .upsert(reportData as any, {
           onConflict: 'user_id',
         });
 

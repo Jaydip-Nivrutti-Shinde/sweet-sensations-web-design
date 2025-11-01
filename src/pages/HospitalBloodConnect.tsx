@@ -61,13 +61,13 @@ const HospitalBloodConnect = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
-        .from('hospital_blood_inventory')
+        .from('hospital_blood_inventory' as any)
         .select('*')
         .eq('hospital_id', user.id)
         .order('blood_group', { ascending: true });
 
       if (error) throw error;
-      setInventory(data || []);
+      setInventory((data || []) as any);
     } catch (error: any) {
       console.error('Error fetching inventory:', error);
       toast({
@@ -85,13 +85,13 @@ const HospitalBloodConnect = () => {
 
     try {
       const { data, error } = await supabase
-        .from('hospital_blood_requests')
+        .from('hospital_blood_requests' as any)
         .select('*')
         .eq('hospital_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setRequests(data || []);
+      setRequests((data || []) as any);
     } catch (error: any) {
       console.error('Error fetching requests:', error);
     }
@@ -103,13 +103,13 @@ const HospitalBloodConnect = () => {
 
     try {
       const { error } = await supabase
-        .from('hospital_blood_inventory')
+        .from('hospital_blood_inventory' as any)
         .upsert({
           hospital_id: user.id,
           blood_group: formData.blood_group,
           units_available: formData.units_available,
           units_reserved: formData.units_reserved || 0,
-        }, {
+        } as any, {
           onConflict: 'hospital_id,blood_group'
         });
 
@@ -138,14 +138,14 @@ const HospitalBloodConnect = () => {
 
     try {
       const { error } = await supabase
-        .from('hospital_blood_requests')
+        .from('hospital_blood_requests' as any)
         .insert({
           hospital_id: user.id,
           blood_group: requestFormData.blood_group,
           units_required: requestFormData.units_required,
           urgency_level: requestFormData.urgency_level,
           status: 'active',
-        });
+        } as any);
 
       if (error) throw error;
 
