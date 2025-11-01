@@ -49,7 +49,7 @@ const BloodDonorList = ({ bloodGroupFilter, onDonorSelect }: BloodDonorListProps
     setLoading(true);
     try {
       let query = supabase
-        .from('blood_donors')
+        .from('blood_donors' as any)
         .select(`
           *,
           profiles:profiles!blood_donors_user_id_fkey(first_name, last_name, phone)
@@ -75,7 +75,7 @@ const BloodDonorList = ({ bloodGroupFilter, onDonorSelect }: BloodDonorListProps
 
       if (error) throw error;
 
-      setDonors(data || []);
+      setDonors((data || []) as any);
     } catch (error) {
       console.error('Error fetching donors:', error);
       toast({

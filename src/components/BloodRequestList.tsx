@@ -8,7 +8,7 @@ import { useBloodRequests } from '@/hooks/useBloodRequests';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Droplet, MapPin, Phone, Clock, AlertTriangle, User } from 'lucide-react';
-import BloodRequestChat from './BloodRequestChat';
+import BloodRequestActions from './BloodRequestActions';
 
 interface BloodRequestListProps {
   showMyRequests?: boolean;
@@ -66,12 +66,6 @@ const BloodRequestList = ({ showMyRequests = false, onRequestSelect }: BloodRequ
     }
   };
 
-  const handleChatClick = (requestId: string) => {
-    setSelectedRequestId(requestId);
-    if (onRequestSelect) {
-      onRequestSelect(requestId);
-    }
-  };
 
   return (
     <div className="space-y-4">
@@ -242,16 +236,16 @@ const BloodRequestList = ({ showMyRequests = false, onRequestSelect }: BloodRequ
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-2 pt-2 border-t">
-                      {user?.id !== request.requester_id && (
-                        <Button
-                          size="sm"
-                          onClick={() => handleChatClick(request.id)}
-                          className="bg-blue-600 hover:bg-blue-700"
-                        >
-                          Chat with Requester
-                        </Button>
-                      )}
+                    <div className="flex flex-wrap gap-2 pt-2 border-t">
+                      {user?.id !== request.requester_id ? (
+                        <BloodRequestActions
+                          requestId={request.id}
+                          requesterId={request.requester_id}
+                          bloodGroup={request.blood_group}
+                          unitsRequired={request.units_required}
+                        />
+                      ) : null}
+                      
                       {request.contact_phone && (
                         <Button
                           size="sm"
@@ -280,13 +274,6 @@ const BloodRequestList = ({ showMyRequests = false, onRequestSelect }: BloodRequ
         </CardContent>
       </Card>
 
-      {/* Chat Dialog */}
-      {selectedRequestId && (
-        <BloodRequestChat
-          requestId={selectedRequestId}
-          onClose={() => setSelectedRequestId(null)}
-        />
-      )}
     </div>
   );
 };
